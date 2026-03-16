@@ -1,0 +1,51 @@
+{
+  "name": "gotool-sales-training",
+  "version": "1.0.0",
+  "description": "Plataforma de capacitación en ventas con gestión de contenido multimedia, autenticación de usuarios y soporte multiidioma",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "node scripts/seed.js"
+  },
+  "keywords": [
+    "sales-training",
+    "nextjs",
+    "react",
+    "prisma",
+    "nextauth",
+    "multimedia",
+    "education"
+  ],
+  "author": "Franco Gimenez",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FrancoGimenezO/GOtool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FrancoGimenezO/GOtool/issues"
+  },
+  "homepage": "https://github.com/FrancoGimenezO/GOtool#readme",
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^3.0.3",
+    "next": "^15",
+    "next-auth": "^4.24.13",
+    "prisma": "^5.22.0",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "^15"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

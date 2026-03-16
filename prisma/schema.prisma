@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url = "file:./dev.db"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   // 'admin' or 'agent'
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
+  description String?
+  resources   Resource[]
+}
+
+model Resource {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  type        String   // 'document', 'audio', 'image', 'video'
+  url         String?  // for files or links
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
+  permissions String   // JSON string for permissions, e.g. '{"roles": ["admin", "agent"]}'
+  createdAt   DateTime @default(now())
+}
