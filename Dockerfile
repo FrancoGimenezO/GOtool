@@ -1,29 +1,30 @@
-# ETAPA 1: Instalación de dependencias
+# ETAPA 1: dependencias
 FROM node:18-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-# ETAPA 2: Construcción (Build)
+# ETAPA 2: build
 FROM node:18-alpine AS builder
 WORKDIR /app
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# Generamos el cliente de Prisma y construimos la app
+
+# IMPORTANTE: Prisma
 RUN npx prisma generate
+
 RUN npm run build
 
-# ETAPA 3: Ejecución (Runner) - La imagen que irá a producción
+# ETAPA 3: producción
 FROM node:18-alpine AS runner
 WORKDIR /app
+
 ENV NODE_ENV=production
 
-# Solo copiamos lo estrictamente necesario para correr
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app ./
 
 EXPOSE 3000
-CMD ["npm", "start"]
+
+# Ejecutar migraciones antes de iniciar
+CMD ["sh", "-c", "npx prisma db push && npm start"]
